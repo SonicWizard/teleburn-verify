@@ -2,10 +2,12 @@
 contracts/out/
 contracts/cache/
 contracts/broadcast/*/31337/
+contracts/broadcast/*/*/dry-run/
 .env
 
 # Web
 web/node_modules/
 web/public/app.js
+web/.wrangler/
 
 .DS_Store

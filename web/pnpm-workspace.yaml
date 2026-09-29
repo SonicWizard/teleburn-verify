@@ -1,7 +1,9 @@
-# Dependency install scripts are blocked unless listed here. esbuild's
-# postinstall only fetches its platform binary.
+# Dependency install scripts are blocked unless listed here. esbuild's and
+# workerd's (wrangler's local runtime) postinstalls only check or fetch
+# their platform binary.
 allowBuilds:
   esbuild: true
+  workerd: true
 
 # Refuse versions published less than 7 days ago (in minutes), so a hijacked
 # release is likely to be caught and pulled before it can land here.

@@ -34,7 +34,7 @@ mainnet, which the fork test checks live.
 contracts/   Foundry: TeleburnLib, TeleburnVerifier, tests, deploy script
 fixtures/    vectors.json, shared by the Solidity and JS tests
 scripts/     gen-vectors.py, the independent (hashlib) reference
-web/         static site: src/ -> esbuild -> public/ (Cloudflare Pages)
+web/         static site: src/ -> esbuild -> public/ (Cloudflare Worker)
 ```
 
 Planned, not built yet: `indexer/` (OCM Genesis bindings to static JSON) and
@@ -57,7 +57,7 @@ cd web
 pnpm install
 pnpm test                # includes the ord cross-check when ord is on PATH
 pnpm run build           # writes public/app.js
-python3 -m http.server 8124 -d public
+pnpm exec wrangler dev   # serves public/ with the _headers CSP applied
 
 # Regenerate vectors (then rerun both test suites)
 python3 scripts/gen-vectors.py
@@ -83,6 +83,8 @@ python3 scripts/gen-vectors.py
       `0x960b7a6bcd451c9968473f7bbfd9be826efd549a`
 - [ ] `api/`: x402 bulk endpoint, built against x402 v2 (the v1 `X-PAYMENT`
       headers are deprecated).
-- [ ] Domain + Cloudflare Pages project
+- [ ] First deploy to https://teleburn.dev (CI deploys `web/` on every push
+      to main once tests pass; needs the `CLOUDFLARE_API_TOKEN` secret)
+- [ ] Redirect www.teleburn.dev to the apex
 
 Informational only. Verify on-chain before relying on a result.

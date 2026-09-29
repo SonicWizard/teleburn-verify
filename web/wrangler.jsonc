@@ -1,0 +1,15 @@
+// Cloudflare Worker serving public/ as static assets, with no Worker script.
+// public/_headers (CSP and friends) applies to every response. CI deploys
+// this on pushes to main once the tests pass; see .github/workflows/ci.yml.
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "teleburn-verify",
+  "account_id": "36bbc281f693465570422d93ad97a63c",
+  "compatibility_date": "2026-09-28",
+  "assets": {
+    "directory": "./public"
+  },
+  // One canonical URL: teleburn.dev only, no *.workers.dev copy.
+  "workers_dev": false,
+  "routes": [{ "pattern": "teleburn.dev", "custom_domain": true }]
+}

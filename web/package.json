@@ -10,6 +10,7 @@
     "@noble/hashes": "2.4.0"
   },
   "devDependencies": {
-    "esbuild": "0.28.2"
+    "esbuild": "0.28.2",
+    "wrangler": "4.136.1"
   }
 }
