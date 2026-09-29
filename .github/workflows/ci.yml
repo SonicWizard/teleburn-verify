@@ -60,6 +60,20 @@ jobs:
       - run: pnpm test
       - run: pnpm run build
 
+  # Offline checks on the committed index. It imports the derivation from
+  # web/src, hence web's install; the indexer itself has no dependencies.
+  indexer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: jdx/mise-action@v5
+        with:
+          install_args: node pnpm
+      - run: pnpm install --frozen-lockfile
+        working-directory: web
+      - run: node --test
+        working-directory: indexer
+
   # Both suites trust fixtures/vectors.json, so it must match its generator.
   fixtures:
     runs-on: ubuntu-latest

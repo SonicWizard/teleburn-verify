@@ -1,0 +1,9 @@
+{
+  "name": "teleburn-verify-indexer",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "index": "node src/index.js",
+    "test": "node --test"
+  }
+}

@@ -44,12 +44,26 @@ mainnet, which the fork test checks live.
 ```
 contracts/   Foundry: TeleburnLib, TeleburnVerifier, tests, deploy script
 fixtures/    vectors.json, shared by the Solidity and JS tests
+indexer/     OCM Genesis teleburns -> data/ocm-genesis.json
 scripts/     gen-vectors.py, the independent (hashlib) reference
 web/         static site: src/ -> esbuild -> public/ (Cloudflare Worker)
 ```
 
-Planned, not built yet: `indexer/` (OCM Genesis bindings to static JSON) and
-`api/` (x402-gated bulk endpoint on a Cloudflare Worker).
+Planned, not built yet: `api/` (x402-gated bulk endpoint on a Cloudflare
+Worker).
+
+## OCM Genesis index
+
+`indexer/data/ocm-genesis.json` maps every OCM Genesis token teleburned to
+Bitcoin to its inscription ID and teleburn address. OCM teleburns through its
+own contracts (`0x27Cb…18E4`, then `0x1c35…E6D8`), which accept the teleburn
+address from the caller instead of deriving it, so the indexer trusts none of
+their events as-is. For each one it re-derives the address from the
+inscription ID and requires it to match where the token was sent, requires
+the event count to equal OCM's `teleburnedCount`, and checks through the
+deployed `TeleburnVerifier` that every token is still held there. The index is
+taken at a finalized block, and bindings never change once made, so reruns
+only add tokens.
 
 ## Commands
 
@@ -70,6 +84,12 @@ pnpm test                # includes the ord cross-check when ord is on PATH
 pnpm run build           # writes public/app.js
 pnpm exec wrangler dev   # serves public/ with the _headers CSP applied
 
+# Indexer (uses web/'s install for the derivation; needs an RPC that serves
+# eth_getLogs over the full history, MEV Blocker's by default)
+cd indexer
+node --test              # offline checks on the committed index
+node src/index.js        # rebuild data/ocm-genesis.json from mainnet
+
 # Regenerate vectors (then rerun both test suites)
 python3 scripts/gen-vectors.py
 ```
@@ -89,9 +109,11 @@ python3 scripts/gen-vectors.py
       plus 50 random IDs per run compared checksum and all
 - [x] Mainnet deploy (`contracts/script/Deploy.s.sol`) and Etherscan verify
 - [x] Put the deployed address on the site's about section
-- [ ] `indexer/`: OCM Genesis collection index as immutable JSON
-- [ ] Fork test against real OCM Genesis tokens on
-      `0x960b7a6bcd451c9968473f7bbfd9be826efd549a`
+- [x] `indexer/`: OCM Genesis collection index as JSON (8,425 teleburned
+      tokens at block 26084832), every binding checked on-chain
+- [x] Fork test against real OCM Genesis tokens on
+      `0x960b7a6bcd451c9968473f7bbfd9be826efd549a`, through the deployed
+      verifier
 - [ ] `api/`: x402 bulk endpoint, built against x402 v2 (the v1 `X-PAYMENT`
       headers are deprecated).
 - [x] Live at https://teleburn.dev: CI deploys `web/` on every push to main
