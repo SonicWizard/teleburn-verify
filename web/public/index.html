@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Teleburn Verifier</title>
+    <meta
+      name="description"
+      content="Derive the Ethereum teleburn address for a Bitcoin inscription and check whether an NFT was teleburned to it. Runs in your browser, no wallet connection."
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="masthead">
+        <p class="eyebrow">Ordinals · Ethereum</p>
+        <h1>Teleburn Verifier</h1>
+        <p class="lede">
+          Paste a Bitcoin inscription ID to get its Ethereum teleburn address.
+          Add an NFT collection and token ID to check whether that token was
+          teleburned to the inscription.
+        </p>
+      </header>
+
+      <form id="lookup" class="card" novalidate>
+        <label for="inscription">Inscription ID</label>
+        <input
+          id="inscription"
+          name="inscription"
+          class="mono"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="6fb976ab…2799i0, or a URL containing one"
+          required
+        />
+
+        <fieldset>
+          <legend>Optional: check a token</legend>
+          <div class="row">
+            <div>
+              <label for="collection">Collection contract</label>
+              <input
+                id="collection"
+                class="mono"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="0x…"
+              />
+            </div>
+            <div>
+              <label for="token">Token ID</label>
+              <input
+                id="token"
+                class="mono"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="decimal or 0x hex"
+              />
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <button type="submit">Verify</button>
+          <button type="button" id="example" class="secondary">
+            Try inscription zero
+          </button>
+        </div>
+        <p id="error" class="error" role="alert"></p>
+      </form>
+
+      <section id="result" class="card" hidden aria-live="polite">
+        <h2>Teleburn address</h2>
+        <div class="address">
+          <code id="out-address" class="mono"></code>
+          <button type="button" id="copy" class="secondary small">Copy</button>
+        </div>
+        <p>
+          <a id="out-etherscan" rel="noopener noreferrer" target="_blank"
+            >View on Etherscan</a
+          >
+        </p>
+        <p id="verdict" class="verdict" hidden></p>
+        <details>
+          <summary>Show the derivation</summary>
+          <dl class="mono">
+            <dt>Txid as displayed</dt>
+            <dd id="out-txid-display"></dd>
+            <dt>Txid, internal byte order (what gets hashed)</dt>
+            <dd id="out-txid-internal"></dd>
+            <dt>Index (4 bytes, big-endian)</dt>
+            <dd id="out-index"></dd>
+          </dl>
+        </details>
+      </section>
+
+      <section class="about">
+        <h2>How it works</h2>
+        <p>
+          Teleburning moves an Ethereum NFT to Bitcoin by sending it to an
+          address derived from an inscription ID. Nobody holds a key for that
+          address, so the token can never move again, and anyone can recompute
+          the address to confirm which inscription it points to.
+        </p>
+        <p>
+          Per the Ordinal Theory Handbook, the address is the first 20 bytes of
+          the SHA-256 hash of the inscription ID serialized as 36 bytes: the
+          32-byte transaction ID, then the inscription index as 4 big-endian
+          bytes.
+        </p>
+        <h3>The byte-order trap</h3>
+        <p>
+          The transaction ID goes in reversed. Bitcoin stores txids in the
+          opposite byte order from the hex shown in inscription IDs and block
+          explorers. Hash the displayed hex directly and you get a wrong address
+          that looks perfectly valid. For inscription zero, the correct address
+          is <code class="mono">0xe43A…dA9e</code>; the displayed-order mistake
+          gives <code class="mono">0x1c11…b0ef</code>.
+        </p>
+        <h3>What leaves your browser</h3>
+        <p>
+          The derivation runs entirely in this page. If you add a collection and
+          token ID, those two values go to a public Ethereum RPC endpoint for
+          one read-only <code class="mono">ownerOf</code> call. There is no
+          wallet connection, no sign-in, and nothing to approve or sign.
+        </p>
+      </section>
+
+      <footer class="footer">
+        <p>
+          Informational only. Verify on-chain yourself before relying on a
+          result.
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>

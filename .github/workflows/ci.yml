@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+# Tool versions come from mise.toml, so CI runs what you run locally. Each job
+# installs only the tools it needs.
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: contracts
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+      - uses: jdx/mise-action@v5
+        with:
+          install_args: foundry
+      - run: forge fmt --check
+      - run: forge build --sizes
+      - run: forge test -vvv
+
+  # Separate job so a flaky public RPC doesn't hide the unit test result.
+  # Set the MAINNET_RPC_URL repo secret to use a private endpoint instead.
+  fork:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: contracts
+    env:
+      MAINNET_RPC_URL: ${{ secrets.MAINNET_RPC_URL || 'https://ethereum-rpc.publicnode.com' }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+      - uses: jdx/mise-action@v5
+        with:
+          install_args: foundry
+      - run: forge test --mc Fork -vvv
+
+  web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v5
+      - uses: jdx/mise-action@v5
+        with:
+          install_args: node pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+      - run: pnpm run build
+
+  # Both suites trust fixtures/vectors.json, so it must match its generator.
+  fixtures:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: jdx/mise-action@v5
+        with:
+          install_args: python
+      - run: python scripts/gen-vectors.py
+      - run: git diff --exit-code fixtures/

@@ -1,0 +1,8 @@
+# Dependency install scripts are blocked unless listed here. esbuild's
+# postinstall only fetches its platform binary.
+allowBuilds:
+  esbuild: true
+
+# Refuse versions published less than 7 days ago (in minutes), so a hijacked
+# release is likely to be caught and pulled before it can land here.
+minimumReleaseAge: 10080
