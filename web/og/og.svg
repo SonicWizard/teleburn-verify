@@ -1,0 +1,35 @@
+<!--
+  Link-preview card source. Rendered to PNG by scripts/render-og.sh:
+    web/public/og-vN.png            1200x630, the og:image / twitter:image
+    web/og/github-social-preview.png 1280x640, uploaded by hand on GitHub
+  No width/height on the root, so it fills whatever viewport it is rendered
+  in. The background overhangs the viewBox so a wider aspect ratio (GitHub's
+  2:1) letterboxes into more background, not blank edges. Colours and fonts
+  match web/public/styles.css (light theme). Text stays 80px from the sides
+  and 70px from the top and bottom, clear of LinkedIn's and X's cropping.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630"
+  preserveAspectRatio="xMidYMid meet" overflow="visible">
+  <rect x="-400" y="-400" width="2000" height="1430" fill="#f7f6f3" />
+  <rect x="-400" y="0" width="2000" height="10" fill="#c2410c" />
+
+  <g font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+    <text x="80" y="118" fill="#c2410c" font-size="24" font-weight="600"
+      letter-spacing="2.4">ORDINALS · ETHEREUM</text>
+
+    <text x="76" y="232" fill="#1c1b19" font-size="104" font-weight="700"
+      letter-spacing="-2">Teleburn Verifier</text>
+
+    <text x="80" y="318" fill="#5f5c55" font-size="40">
+      <tspan x="80">Check whether an Ethereum NFT was teleburned</tspan>
+      <tspan x="80" dy="54">to a Bitcoin Ordinals inscription</tspan>
+    </text>
+  </g>
+
+  <line x1="80" y1="486" x2="1120" y2="486" stroke="#dedbd3" stroke-width="2" />
+
+  <text x="80" y="552" fill="#c2410c" font-size="40" font-weight="600"
+    font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">teleburn.dev</text>
+  <text x="1120" y="550" fill="#5f5c55" font-size="26" text-anchor="end"
+    font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">6fb976ab…2799i0 → 0xe43A…dA9e</text>
+</svg>
