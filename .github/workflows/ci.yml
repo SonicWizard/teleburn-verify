@@ -54,7 +54,8 @@ jobs:
       - uses: actions/checkout@v5
       - uses: jdx/mise-action@v5
         with:
-          install_args: node pnpm
+          # ord for the cross-check in test/ord.test.js
+          install_args: node pnpm github:ordinals/ord
       - run: pnpm install --frozen-lockfile
       - run: pnpm test
       - run: pnpm run build

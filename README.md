@@ -42,9 +42,9 @@ Planned, not built yet: `indexer/` (OCM Genesis bindings to static JSON) and
 
 ## Commands
 
-Tool versions (Node, pnpm, Foundry, Python) are pinned in `mise.toml`, and CI
-uses the same file. Run `mise install` once, then either activate mise in your
-shell or prefix commands with `mise exec --`.
+Tool versions (Node, pnpm, Foundry, Python, ord) are pinned in `mise.toml`,
+and CI uses the same file. Run `mise install` once, then either activate mise
+in your shell or prefix commands with `mise exec --`.
 
 ```bash
 # Contracts
@@ -55,7 +55,7 @@ MAINNET_RPC_URL=https://ethereum-rpc.publicnode.com forge test --mc Fork
 # Web (pnpm; dependency install scripts need approval in pnpm-workspace.yaml)
 cd web
 pnpm install
-pnpm test
+pnpm test                # includes the ord cross-check when ord is on PATH
 pnpm run build           # writes public/app.js
 python3 -m http.server 8124 -d public
 
@@ -74,7 +74,8 @@ python3 scripts/gen-vectors.py
       (public RPC unless the `MAINNET_RPC_URL` secret is set), fixture drift
 - [x] Web: single lookup, client-side SHA-256, EIP-55, optional `ownerOf`
       check via a public RPC, no wallet connection, strict CSP
-- [ ] Cross-check the fixture against `ord teleburn` (ord not installed yet)
+- [x] Cross-check against `ord teleburn` (ord 0.29.0): every fixture vector,
+      plus 50 random IDs per run compared checksum and all
 - [ ] Mainnet deploy (`contracts/script/Deploy.s.sol`) and Etherscan verify
 - [ ] Put the deployed address on the site's about section
 - [ ] `indexer/`: OCM Genesis collection index as immutable JSON

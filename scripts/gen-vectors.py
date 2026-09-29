@@ -5,11 +5,9 @@ Both the Solidity tests and the web tests assert against this file, so the
 contract and the browser derivation are held to the same independent
 reference (Python's hashlib, not either implementation under test).
 
-The first vector is the Ordinal Theory Handbook's own example, checked
-against `ord teleburn`. The rest are deterministic pseudo-random txids at
-the index boundaries. When `ord` is installed, cross-check them with:
-
-    ord teleburn <inscriptionId>
+The first vector is the Ordinal Theory Handbook's own example. The rest are
+deterministic pseudo-random txids at the index boundaries. All of them are
+checked against `ord teleburn` by web/test/ord.test.js.
 """
 
 import hashlib
