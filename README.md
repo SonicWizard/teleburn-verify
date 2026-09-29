@@ -83,8 +83,8 @@ python3 scripts/gen-vectors.py
       `0x960b7a6bcd451c9968473f7bbfd9be826efd549a`
 - [ ] `api/`: x402 bulk endpoint, built against x402 v2 (the v1 `X-PAYMENT`
       headers are deprecated).
-- [ ] First deploy to https://teleburn.dev (CI deploys `web/` on every push
-      to main once tests pass; needs the `CLOUDFLARE_API_TOKEN` secret)
-- [ ] Redirect www.teleburn.dev to the apex
+- [x] Live at https://teleburn.dev: CI deploys `web/` on every push to main
+      once tests pass (needs the `CLOUDFLARE_API_TOKEN` secret)
+- [ ] Cloudflare: Always Use HTTPS, and redirect www.teleburn.dev to the apex
 
 Informational only. Verify on-chain before relying on a result.
