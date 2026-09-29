@@ -85,6 +85,6 @@ python3 scripts/gen-vectors.py
       headers are deprecated).
 - [x] Live at https://teleburn.dev: CI deploys `web/` on every push to main
       once tests pass (needs the `CLOUDFLARE_API_TOKEN` secret)
-- [ ] Cloudflare: Always Use HTTPS, and redirect www.teleburn.dev to the apex
+- [x] Cloudflare: Always Use HTTPS, and redirect www.teleburn.dev to the apex
 
 Informational only. Verify on-chain before relying on a result.
