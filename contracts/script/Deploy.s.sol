@@ -8,10 +8,15 @@ import {TeleburnVerifier} from "../src/TeleburnVerifier.sol";
 ///
 ///     forge script script/Deploy.s.sol --rpc-url $MAINNET_RPC_URL
 ///
-/// Then broadcast and verify with a hardware wallet:
+/// Then broadcast and verify (needs ETHERSCAN_API_KEY). The contract has no
+/// owner, so the deployer gets no privileges; it only pays gas. Sign with a
+/// Trezor, or with MetaMask in the browser (forge serves a local signing page):
 ///
 ///     forge script script/Deploy.s.sol --rpc-url $MAINNET_RPC_URL \
-///       --ledger --broadcast --verify
+///       --trezor --sender $DEPLOYER --broadcast --verify
+///
+///     forge script script/Deploy.s.sol --rpc-url $MAINNET_RPC_URL \
+///       --browser --sender $DEPLOYER --broadcast --verify
 contract Deploy is Script {
     function run() external returns (TeleburnVerifier verifier) {
         vm.startBroadcast();
