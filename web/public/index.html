@@ -125,12 +125,38 @@
           one read-only <code class="mono">ownerOf</code> call. There is no
           wallet connection, no sign-in, and nothing to approve or sign.
         </p>
+        <h3>On-chain verifier</h3>
+        <p>
+          The same check is deployed on Ethereum mainnet as a contract any other
+          contract can call, with no owner and no state:
+          <a
+            href="https://etherscan.io/address/0x58b0acCf5C68E99fA0424c0A30EAA1a6BfeaBDdC#code"
+            rel="noopener noreferrer"
+            target="_blank"
+            ><code class="mono"
+              >0x58b0acCf5C68E99fA0424c0A30EAA1a6BfeaBDdC</code
+            ></a
+          >. Its source is verified on Etherscan. Call
+          <code class="mono">isTeleburnedTo</code> with a collection, token ID,
+          and txid in internal byte order, or
+          <code class="mono">deriveAddressFromDisplayTxid</code> with the txid
+          as displayed.
+        </p>
       </section>
 
       <footer class="footer">
         <p>
           Informational only. Verify on-chain yourself before relying on a
           result.
+        </p>
+        <p>
+          <a
+            href="https://github.com/SonicWizard/teleburn-verify"
+            rel="noopener noreferrer"
+            target="_blank"
+            >Source code</a
+          >
+          · MIT licensed
         </p>
       </footer>
     </main>

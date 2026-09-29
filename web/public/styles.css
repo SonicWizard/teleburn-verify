@@ -259,6 +259,10 @@ dd {
   margin: 0 0 12px;
 }
 
+.about code {
+  overflow-wrap: anywhere;
+}
+
 .footer {
   margin-top: 40px;
   padding-top: 16px;

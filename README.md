@@ -10,6 +10,17 @@ the address and checks who holds the token: a stateless Solidity contract for
 other contracts to call, and a static site that does the same in your browser
 with nothing to install or connect.
 
+## Deployment
+
+| | |
+| --- | --- |
+| Site | https://teleburn.dev |
+| `TeleburnVerifier` (Ethereum mainnet) | [`0x58b0acCf5C68E99fA0424c0A30EAA1a6BfeaBDdC`](https://etherscan.io/address/0x58b0acCf5C68E99fA0424c0A30EAA1a6BfeaBDdC#code) |
+
+The contract is verified on Etherscan and Sourcify (exact match), and its
+on-chain bytecode matches a local build of this repo. The deploy record is in
+`contracts/broadcast/Deploy.s.sol/1/`.
+
 ## The derivation
 
 Per the Ordinal Theory Handbook, the teleburn address is the first 20 bytes of
@@ -76,8 +87,8 @@ python3 scripts/gen-vectors.py
       check via a public RPC, no wallet connection, strict CSP
 - [x] Cross-check against `ord teleburn` (ord 0.29.0): every fixture vector,
       plus 50 random IDs per run compared checksum and all
-- [ ] Mainnet deploy (`contracts/script/Deploy.s.sol`) and Etherscan verify
-- [ ] Put the deployed address on the site's about section
+- [x] Mainnet deploy (`contracts/script/Deploy.s.sol`) and Etherscan verify
+- [x] Put the deployed address on the site's about section
 - [ ] `indexer/`: OCM Genesis collection index as immutable JSON
 - [ ] Fork test against real OCM Genesis tokens on
       `0x960b7a6bcd451c9968473f7bbfd9be826efd549a`
